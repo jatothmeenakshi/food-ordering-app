@@ -1,7 +1,8 @@
 import React from 'react';
 
-function Cart({ cart,onOrderPlaced }) {
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
+function Cart({ cart,onOrderPlaced,removeFromCart }) {
+   console.log('Cart items:',cart);
+  const total = cart.reduce((sum, item) => sum + item.price*item.quantity, 0);
    const placeOrder = async () => {
     if (cart.length === 0) return;
 
@@ -24,6 +25,7 @@ function Cart({ cart,onOrderPlaced }) {
     } catch (err) {
       alert('Something went wrong!');
     }
+   
   };
   return (
     <div style={styles.container}>
@@ -32,12 +34,21 @@ function Cart({ cart,onOrderPlaced }) {
         <p style={styles.empty}>Your cart is empty!</p>
       ) : (
         <>
-          {cart.map((item, index) => (
-            <div key={index} style={styles.cartItem}>
-              <span>{item.name}</span>
-              <span>₹{item.price}</span>
-            </div>
+          {cart.map((item) => (
+            <div key={item._id} style={styles.cartItem}>
+            <div>
+              <p style={styles.itemName}>{item.name}</p>
+              <p style={styles.itemPrice}>₹{item.price*item.quantity}</p>
+              </div>
+              <div style={styles.controls}>
+                <span style={styles.quantity}>x{item.quantity}</span>
+                <button style={styles.removeBtn} onClick={()=>removeFromCart(item._id)}>
+                   ✕
+                </button>
+              </div>
+              </div>
           ))}
+        
           <div style={styles.total}>
             <strong>Total: ₹{total}</strong>
           </div>
@@ -63,8 +74,23 @@ const styles = {
   cartItem: {
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems:'center',
     padding: '10px 0',
     borderBottom: '1px solid #eee'
+  },
+   itemName: { margin: '0', fontWeight: 'bold' ,color:'#333'},
+  itemPrice: { margin: '4px 0 0', color: '#ff6b35' },
+  controls: { display: 'flex', alignItems: 'center', gap: '8px' },
+  quantity: { fontSize: '14px', color: '#666' },
+  removeBtn: {
+    backgroundColor: '#ff4444',
+    color: 'white',
+    border: 'none',
+    borderRadius: '50%',
+    width: '24px',
+    height: '24px',
+    cursor: 'pointer',
+    fontSize: '12px'
   },
   total: {
     textAlign: 'right',

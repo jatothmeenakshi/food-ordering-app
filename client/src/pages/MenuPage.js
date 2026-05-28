@@ -5,7 +5,7 @@ function MenuPage({addToCart}) {
   const [menuItems, setMenuItems] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/menu')
+    fetch('https://food-ordering-backend-8hx3.onrender.com/api/menu')
       .then(res => res.json())
       .then(data => setMenuItems(data));
   }, []);

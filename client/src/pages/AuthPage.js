@@ -9,8 +9,8 @@ function AuthPage({ onLogin }) {
 
   const handleSubmit = async () => {
     const url = isLogin
-      ? 'http://localhost:5000/api/auth/login'
-      : 'http://localhost:5000/api/auth/signup';
+      ? 'https://food-ordering-backend-8hx3.onrender.com/api/auth/login'
+      : 'https://food-ordering-backend-8hx3.onrender.com/api/auth/signup';
 
     const body = isLogin
       ? { email, password }
